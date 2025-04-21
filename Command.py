@@ -93,6 +93,23 @@ class AirSimCommand:
 
         return None
 
+    def execute_set_command(self, prop_type, value, controls):
+        """
+        执行设置命令
+        :param prop_type: PropertyType 枚举值
+        :param value: 要设置的值
+        :param controls: CarControls 对象
+        :return: 修改后的 CarControls 对象
+        """
+        if prop_type == PropertyType.THROTTLE:
+            controls.throttle = float(value)
+        elif prop_type == PropertyType.BRAKE:
+            controls.brake = float(value)
+        elif prop_type == PropertyType.STEERING:
+            controls.steering = float(value)
+        # Note: SPEED and POSITION might need different handling as they're not direct control inputs
+        return controls
+
     # def create_command(self, command_type, *args):
     #     """
     #     创建可发送的命令字符串
@@ -119,23 +136,25 @@ class AirSimCommand:
 
     def _forward(self, controls):
         """前进命令处理"""
-        controls.throttle = 0.5
+        controls.throttle = 0.2
         controls.brake = 0
         return controls
 
     def _backward(self, controls):
         """后退命令处理"""
-        controls.throttle = -0.5
+        controls.throttle = -1
         controls.brake = 0
         return controls
 
     def _left(self, controls):
         """左转命令处理"""
+
         controls.steering = -0.5
         return controls
 
     def _right(self, controls):
         """右转命令处理"""
+
         controls.steering = 0.5
         return controls
 
